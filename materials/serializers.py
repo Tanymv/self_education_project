@@ -35,15 +35,15 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
         return None
 
     @staticmethod
-    def get_materials_count(course):
+    def get_materials_count(category):
         """Получаем количество материалов для данного раздела"""
         return Material.objects.filter(category=category).count()
 
     @staticmethod
-    def get_materials_list(course):
+    def get_materials_list(category):
         """Получаем список материалов для данного раздела"""
         return MaterialSerializer(Material.objects.filter(category=category),
-                                many=True).data
+                                  many=True).data
 
     class Meta:
         model = Category
@@ -53,7 +53,7 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
 class MaterialDetailSerializer(serializers.ModelSerializer):
     """Cериализатор для просмотра информации о материале,
        где для раздела выводится его наименование"""
-    category = SlugRelatedField(slug_field='name', queryset=Category.objects.all())
+    category = SlugRelatedField(slug_field='title', queryset=Category.objects.all())
 
     class Meta:
         model = Material
